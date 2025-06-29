@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from "./layout/header/header";
 import { HttpClient } from '@angular/common/http';
-import { Product, products } from './shared/models/product';
+import { Product } from './shared/models/product';
 import { Pagination } from './shared/models/pagination';
 
 @Component({
