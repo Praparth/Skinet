@@ -35,6 +35,10 @@ export class shopService {
       return this.http.get<Pagination<Product>>(this.baseurl + 'products',{params})
     }
 
+    getProducts(id:number){
+      return this.http.get<Product>(this.baseurl + 'products/' + id);
+    }
+
     getBrands(){
       if(this.brands.length > 0) return;
       return this.http.get<string[]>(this.baseurl + 'products/brands').subscribe({

@@ -48,10 +48,10 @@ export class Shopcomponent implements OnInit {
     this.initializeShop();
   }
   
-    initializeShop(){
+  initializeShop(){
+        this.getProducts();
         this.shopService.getBrands();
         this.shopService.getTypes();
-        this.getProducts();
     }
 
     getProducts() {
