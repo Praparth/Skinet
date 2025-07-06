@@ -6,6 +6,7 @@ import { Product } from './shared/models/product';
 import { Pagination } from './shared/models/pagination';
 import { shopService } from './core/services/shop';
 import { Shopcomponent } from "./features/shop/shop";
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -16,5 +17,6 @@ import { Shopcomponent } from "./features/shop/shop";
 
 })
 export class AppComponent {
+  private cdr = inject(ChangeDetectorRef);
   title = 'Skinet'
 }

@@ -13,6 +13,7 @@ import { ShopParams } from '../../shared/models/shopParams';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Pagination } from '../../shared/models/pagination';
 import { FormsModule, NgModel } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-shop',
@@ -33,6 +34,8 @@ import { FormsModule, NgModel } from '@angular/forms';
 })
 export class Shopcomponent implements OnInit {
 
+  // Inside the component
+  private cdr = inject(ChangeDetectorRef);
   private shopService = inject(shopService);
   private dialogService = inject(MatDialog);
   products?: Pagination<Product>;
@@ -54,16 +57,31 @@ export class Shopcomponent implements OnInit {
         this.shopService.getTypes();
     }
 
+    // getProducts() {
+    //   this.shopService.getProduct(this.shopParams).subscribe({
+    //     next: response => {
+    //             console.log('API Response:', response);
+    //             this.products = response;
+    //           },
+    //     error: error => console.error(error),
+    //     complete: () => console.log('Complete')
+    //   })
+    // }
+
     getProducts() {
-      this.shopService.getProduct(this.shopParams).subscribe({
-        next: response => {
-                console.log('API Response:', response);
-                this.products = response;
-              },
-        error: error => console.error(error),
-        complete: () => console.log('Complete')
-      })
-    }
+  this.shopService.getProduct(this.shopParams).subscribe({
+    next: response => {
+      console.log('API Response:', response);
+      this.products = response;
+
+      // 💡 Manually trigger change detection
+      this.cdr.detectChanges();
+    },
+    error: error => console.error(error),
+    complete: () => console.log('Complete')
+  });
+}
+
 
     onSearchChnage(){
       this.shopParams.pageNumber = 1 ;
