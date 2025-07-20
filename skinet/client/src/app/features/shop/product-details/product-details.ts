@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { shopService } from '../../../core/services/shop';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../../shared/models/product';
@@ -25,7 +25,9 @@ import { MatDivider } from '@angular/material/divider';
 })
 export class ProductDetails implements OnInit {
   private shopService = inject(shopService);
-  private activeedRoute = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
+    private cdr = inject(ChangeDetectorRef); // Add ChangeDetectorRef
+
   product?: Product
 
   ngOnInit(): void {
@@ -33,10 +35,14 @@ export class ProductDetails implements OnInit {
   }
 
   loadProduct(){
-    const id = this.activeedRoute.snapshot.paramMap.get('id');
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(!id){ console.log(id); return};
     this.shopService.getProducts(+id).subscribe({
-      next: product => this.product = product,
+          next: product => {
+      this.product = product;
+      console.log('Loaded product:', product);
+              this.cdr.detectChanges(); 
+    },
       error: error => console.log(error)
     })
   }
