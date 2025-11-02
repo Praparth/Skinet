@@ -8,13 +8,18 @@ import { loadingInterceptor } from './core/interceptors/loading-interceptor';
 import { Init } from './core/services/init';
 import { lastValueFrom } from 'rxjs';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { authInterceptor } from './core/interceptor/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
+    provideHttpClient(withInterceptors([
+      errorInterceptor, 
+      loadingInterceptor,
+      authInterceptor
+    ])),
     provideAppInitializer( async () => {
       const initService  = inject(Init);
       return  lastValueFrom(initService.init()).finally( () => {
