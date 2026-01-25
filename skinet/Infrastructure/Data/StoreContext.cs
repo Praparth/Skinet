@@ -1,4 +1,5 @@
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,8 @@ public class StoreContext : IdentityDbContext<AppUser>
     public DbSet<Product> Product { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,5 +35,8 @@ public class StoreContext : IdentityDbContext<AppUser>
                   .IsRequired(false)
                   .OnDelete(DeleteBehavior.Restrict); // avoid cascade delete errors
         });
+        modelBuilder.Entity<Order>().OwnsOne(o => o.ShippingAddress);
+        modelBuilder.Entity<Order>().OwnsOne(o => o.PaymentSummary);
+        modelBuilder.Entity<OrderItem>().OwnsOne(oi => oi.ItemOrdered);
     }
 }

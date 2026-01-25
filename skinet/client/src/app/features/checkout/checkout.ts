@@ -136,21 +136,24 @@ export class Checkout implements OnInit , OnDestroy{
     }
   }
 
-  private async getAddressFromStripeAddress() : Promise<Address | null>{
-    const result = await this.addressElement?.getValue();
-    const address = result?.value.address;
+  private async getAddressFromStripeAddress(): Promise<Address | null> {
+  const result = await this.addressElement?.getValue();
+  const address = result?.value.address;
 
-    if(address){
-      return{
-        line1: address.line1,
-        line2: address.line2 || undefined,
-        city: address.city,
-        state: address.state, 
-        country: address.country,
-        postalcode: address.postal_code
-      }
-    }else return null;
+  if (address) {
+    return {
+      line1: address.line1,
+      line2: address.line2 || undefined,
+      city: address.city,
+      state: address.state,
+      postalCode: address.postal_code,      
+      country: address.country
+    };
   }
+
+  return null;
+  }
+
 
   onSaveAddressChekcBoxChange(event: MatCheckboxChange){
     this.saveAddress = event.checked;

@@ -29,6 +29,19 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? _critera) : ISpecif
         }
         return query;
     }
+    public List<Expression<Func<T, object>>> Includes { get; } = [];
+
+    public List<string> IncludeStrings { get; } = [];
+
+    protected void AddInclude(Expression<Func<T, object>> includeExpression)
+    {
+        Includes.Add(includeExpression);
+    }
+
+    protected void AddInclude(string includeString)
+    {
+        IncludeStrings.Add(includeString);
+    }
 
     protected void AddOrderBy(Expression<Func<T, object>> orderByExperssion)
     {

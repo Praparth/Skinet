@@ -1,6 +1,7 @@
 using System;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
@@ -33,10 +34,14 @@ public class SpecificationEvaluator<T> where T : BaseEntity
             query = query.Skip(spac.Skip).Take(spac.Take);
         }
 
+        query = spac.Includes.Aggregate(query,(current, include) => current.Include(include));
+        query = spac.IncludeStrings.Aggregate(query,(current, include) => current.Include(include));
+
         return query;
     }
 
-    public static IQueryable<TResult> GetQuery<TSpec , TResult>(IQueryable<T> query, ISpecification<T,TResult> spac)
+    public static IQueryable<TResult> GetQuery<TSpec , TResult>(IQueryable<T> query,
+            ISpecification<T, TResult> spac)
     {
         if (spac.Criteria != null)
         {
