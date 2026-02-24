@@ -72,7 +72,7 @@ export class StripeService {
             city: user.address.city,
             state: user.address.state,
             country: user.address.country,
-            postal_code: user.address.postalcode,
+            postal_code: user.address.postalCode,
           }
         }
         const options : StripeAddressElementOptions = {
